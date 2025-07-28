@@ -145,6 +145,14 @@ Make sure pytest is installed: pip install pytest
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+### Chatbot App Images
+
+<img src = "assets/images/app1.png" alt = "image" width = "500" height = "500">
+
+<img src = "assets/images/app2.png" alt = "image" width = "500" height = "500">
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 <!-- AUTHORS -->
 
 ## 👥 Authors <a name="authors"></a>
