@@ -6,7 +6,7 @@ import os
 from openai import OpenAI
 
 # Load API credentials from environment variables
-api_key = os.getenv("OPENROUTER_API_KEY")
+api_key = os.getenv("HORIZON_ALPH_API_KEY")
 base_url = os.getenv("OPENROUTER_BASE_URL")
 
 # Initialize OpenAI client with custom API endpoint
@@ -109,11 +109,10 @@ class ChatbotApp:
         self.chat_history.tag_config('bot', foreground='#2e7d32')   # Green for bot
 
     def send_message(self):
-        """Handle sending user message and getting AI response"""
         # Get user input and remove whitespace
         user_message = self.user_input.get().strip()
         if not user_message:
-            return  # Don't send empty messages
+            return  
             
         # Add user message to chat history
         self.update_chat("You", user_message)
@@ -131,28 +130,23 @@ class ChatbotApp:
             # Add bot response to chat history
             self.update_chat("Bot", bot_response, 'bot')
         except Exception as e:
-            # Handle API errors
             self.remove_typing_indicator()
             messagebox.showerror("Error", f"API Error: {str(e)}")
 
     def show_typing_indicator(self):
-        """Display typing indicator while AI is processing"""
         self.chat_history.configure(state='normal')
         self.chat_history.insert(tk.END, "AI is typing...\n", "typing")
-        self.chat_history.see(tk.END)  # Scroll to bottom
+        self.chat_history.see(tk.END)  
         self.chat_history.configure(state='disabled')
-        self.root.update()  # Force UI update
+        self.root.update() 
         
     def remove_typing_indicator(self):
-        """Remove the typing indicator from chat"""
         self.chat_history.configure(state='normal')
-        # Delete the last line (typing indicator)
         self.chat_history.delete("end-2l", "end-1l")
         self.chat_history.configure(state='disabled')
 
     def update_chat(self, sender, message, tag=None):
-        """Add a new message to the chat history"""
-        self.chat_history.configure(state='normal')  # Enable editing
+        self.chat_history.configure(state='normal') 
         
         if sender == "You":
             # Add user message with blue color
@@ -167,15 +161,13 @@ class ChatbotApp:
         self.chat_history.configure(state='disabled')  # Make read-only again
 
     def get_completion(self, prompt):
-        """Get AI response from the API"""
         response = client.chat.completions.create(
-            model="deepseek/deepseek-r1-0528:free",  # Free model
+            model="openrouter/horizon-alpha", 
             messages=[{"role": "user", "content": prompt}],
-            temperature=0  # Deterministic responses
+            temperature=0 
         )
         return response.choices[0].message.content
 
-# Run the application
 if __name__ == "__main__":
     root = tk.Tk()
     ChatbotApp(root)
